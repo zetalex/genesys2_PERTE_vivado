@@ -1,0 +1,482 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
+| Date         : Tue Mar 18 11:13:18 2025
+| Host         : hyperk2 running 64-bit Ubuntu 22.04.5 LTS
+| Command      : upgrade_ip
+| Device       : xc7k325tffg900-2
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'system_rst_mig_7series_0_100M_2'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of system_rst_mig_7series_0_100M_2 (xilinx.com:ip:proc_sys_reset:5.0) from (Rev. 13) to (Rev. 15)
+
+
+
+
+
+
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
+| Date         : Tue Mar 18 11:13:18 2025
+| Host         : hyperk2 running 64-bit Ubuntu 22.04.5 LTS
+| Command      : upgrade_ip
+| Device       : xc7k325tffg900-2
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'system_rst_axi_ethernet_0_refclk_200M_0'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of system_rst_axi_ethernet_0_refclk_200M_0 (xilinx.com:ip:proc_sys_reset:5.0) from (Rev. 13) to (Rev. 15)
+
+
+
+
+
+
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
+| Date         : Tue Mar 18 11:13:18 2025
+| Host         : hyperk2 running 64-bit Ubuntu 22.04.5 LTS
+| Command      : upgrade_ip
+| Device       : xc7k325tffg900-2
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'system_microblaze_0_xlconcat_0'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of system_microblaze_0_xlconcat_0 (xilinx.com:ip:xlconcat:2.1) from (Rev. 4) to (Rev. 6)
+
+
+
+
+
+
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
+| Date         : Tue Mar 18 11:13:18 2025
+| Host         : hyperk2 running 64-bit Ubuntu 22.04.5 LTS
+| Command      : upgrade_ip
+| Device       : xc7k325tffg900-2
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'system_microblaze_0_axi_periph_2'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of system_microblaze_0_axi_periph_2 (xilinx.com:ip:axi_interconnect:2.1) from (Rev. 28) to (Rev. 32)
+
+
+
+
+
+
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
+| Date         : Tue Mar 18 11:13:18 2025
+| Host         : hyperk2 running 64-bit Ubuntu 22.04.5 LTS
+| Command      : upgrade_ip
+| Device       : xc7k325tffg900-2
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'system_microblaze_0_axi_intc_0'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of system_microblaze_0_axi_intc_0 (xilinx.com:ip:axi_intc:4.1) from (Rev. 17) to (Rev. 19)
+
+2. Upgrade messages
+-------------------
+
+Set parameter C_IVAR_RESET_VALUE to value 0x0000000000000010 (source 'default')
+
+
+
+
+
+
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
+| Date         : Tue Mar 18 11:13:18 2025
+| Host         : hyperk2 running 64-bit Ubuntu 22.04.5 LTS
+| Command      : upgrade_ip
+| Device       : xc7k325tffg900-2
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'system_microblaze_0_0'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of system_microblaze_0_0 (xilinx.com:ip:microblaze:11.0) from (Rev. 10) to (Rev. 13)
+
+2. Upgrade messages
+-------------------
+
+Set parameter C_DCACHE_BASEADDR to value 0x0000000080000000 (source 'default')
+Set parameter C_DCACHE_HIGHADDR to value 0x00000000BFFFFFFF (source 'default')
+Set parameter C_ICACHE_BASEADDR to value 0x0000000080000000 (source 'default')
+Set parameter C_ICACHE_HIGHADDR to value 0x00000000BFFFFFFF (source 'default')
+Set parameter C_BASE_VECTORS to value 0x0000000000000000 (source 'default')
+Set parameter C_M_AXI_DP_ADDR_WIDTH to value 32 (source 'default')
+Set parameter C_M_AXI_DC_ADDR_WIDTH to value 32 (source 'default')
+Set parameter C_M_AXI_IP_ADDR_WIDTH to value 32 (source 'default')
+Set parameter C_M_AXI_IC_ADDR_WIDTH to value 32 (source 'default')
+
+
+
+
+
+
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
+| Date         : Tue Mar 18 11:13:18 2025
+| Host         : hyperk2 running 64-bit Ubuntu 22.04.5 LTS
+| Command      : upgrade_ip
+| Device       : xc7k325tffg900-2
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'system_mdm_1_1'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of system_mdm_1_1 (xilinx.com:ip:mdm:3.2) from (Rev. 23) to (Rev. 26)
+
+2. Upgrade messages
+-------------------
+
+Set parameter C_M_AXIS_ID_WIDTH to value 7 (source 'default')
+
+
+
+
+
+
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
+| Date         : Tue Mar 18 11:13:18 2025
+| Host         : hyperk2 running 64-bit Ubuntu 22.04.5 LTS
+| Command      : upgrade_ip
+| Device       : xc7k325tffg900-2
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'system_lmb_bram_1'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of system_lmb_bram_1 (xilinx.com:ip:blk_mem_gen:8.4) from (Rev. 5) to (Rev. 8)
+
+
+
+
+
+
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
+| Date         : Tue Mar 18 11:13:18 2025
+| Host         : hyperk2 running 64-bit Ubuntu 22.04.5 LTS
+| Command      : upgrade_ip
+| Device       : xc7k325tffg900-2
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'system_ilmb_v10_1'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of system_ilmb_v10_1 (xilinx.com:ip:lmb_v10:3.0) from (Rev. 12) to (Rev. 14)
+
+
+
+
+
+
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
+| Date         : Tue Mar 18 11:13:17 2025
+| Host         : hyperk2 running 64-bit Ubuntu 22.04.5 LTS
+| Command      : upgrade_ip
+| Device       : xc7k325tffg900-2
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'system_ilmb_bram_if_cntlr_1'
+
+1. Summary
+----------
+
+CAUTION (success, with warnings) in the upgrade of system_ilmb_bram_if_cntlr_1 (xilinx.com:ip:lmb_bram_if_cntlr:4.0) from (Rev. 21) to (Rev. 24)
+
+2. Addressing Information
+-------------------------
+
+Detected addressing differences while upgrading 'system_ilmb_bram_if_cntlr_1'. These changes may impact your design.
+
+
+-Upgrade has added address block 'SLMB4/Mem'
+
+-Upgrade has added address block 'SLMB5/Mem'
+
+-Upgrade has added address block 'SLMB6/Mem'
+
+-Upgrade has added address block 'SLMB7/Mem'
+
+
+3. Upgrade messages
+-------------------
+
+Set parameter C_MASK1 to value 0x0000000000800000 (source 'default')
+Set parameter C_MASK2 to value 0x0000000000800000 (source 'default')
+Set parameter C_MASK3 to value 0x0000000000800000 (source 'default')
+
+
+
+
+
+
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
+| Date         : Tue Mar 18 11:13:17 2025
+| Host         : hyperk2 running 64-bit Ubuntu 22.04.5 LTS
+| Command      : upgrade_ip
+| Device       : xc7k325tffg900-2
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'system_dlmb_v10_1'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of system_dlmb_v10_1 (xilinx.com:ip:lmb_v10:3.0) from (Rev. 12) to (Rev. 14)
+
+
+
+
+
+
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
+| Date         : Tue Mar 18 11:13:17 2025
+| Host         : hyperk2 running 64-bit Ubuntu 22.04.5 LTS
+| Command      : upgrade_ip
+| Device       : xc7k325tffg900-2
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'system_dlmb_bram_if_cntlr_1'
+
+1. Summary
+----------
+
+CAUTION (success, with warnings) in the upgrade of system_dlmb_bram_if_cntlr_1 (xilinx.com:ip:lmb_bram_if_cntlr:4.0) from (Rev. 21) to (Rev. 24)
+
+2. Addressing Information
+-------------------------
+
+Detected addressing differences while upgrading 'system_dlmb_bram_if_cntlr_1'. These changes may impact your design.
+
+
+-Upgrade has added address block 'SLMB4/Mem'
+
+-Upgrade has added address block 'SLMB5/Mem'
+
+-Upgrade has added address block 'SLMB6/Mem'
+
+-Upgrade has added address block 'SLMB7/Mem'
+
+
+3. Upgrade messages
+-------------------
+
+Set parameter C_MASK1 to value 0x0000000000800000 (source 'default')
+Set parameter C_MASK2 to value 0x0000000000800000 (source 'default')
+Set parameter C_MASK3 to value 0x0000000000800000 (source 'default')
+
+
+
+
+
+
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
+| Date         : Tue Mar 18 11:13:17 2025
+| Host         : hyperk2 running 64-bit Ubuntu 22.04.5 LTS
+| Command      : upgrade_ip
+| Device       : xc7k325tffg900-2
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'system_axi_uartlite_0_0'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of system_axi_uartlite_0_0 (xilinx.com:ip:axi_uartlite:2.0) from (Rev. 31) to (Rev. 35)
+
+
+
+
+
+
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
+| Date         : Tue Mar 18 11:13:17 2025
+| Host         : hyperk2 running 64-bit Ubuntu 22.04.5 LTS
+| Command      : upgrade_ip
+| Device       : xc7k325tffg900-2
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'system_axi_timer_0_0'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of system_axi_timer_0_0 (xilinx.com:ip:axi_timer:2.0) from (Rev. 29) to (Rev. 33)
+
+
+
+
+
+
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
+| Date         : Tue Mar 18 11:13:17 2025
+| Host         : hyperk2 running 64-bit Ubuntu 22.04.5 LTS
+| Command      : upgrade_ip
+| Device       : xc7k325tffg900-2
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'system_axi_quad_spi_0_0'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of system_axi_quad_spi_0_0 (xilinx.com:ip:axi_quad_spi:3.2) from (Rev. 26) to (Rev. 30)
+
+
+
+
+
+
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
+| Date         : Tue Mar 18 11:13:17 2025
+| Host         : hyperk2 running 64-bit Ubuntu 22.04.5 LTS
+| Command      : upgrade_ip
+| Device       : xc7k325tffg900-2
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'system_axi_interconnect_0_0'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of system_axi_interconnect_0_0 (xilinx.com:ip:axi_interconnect:2.1) from (Rev. 28) to (Rev. 32)
+
+
+
+
+
+
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
+| Date         : Tue Mar 18 11:13:17 2025
+| Host         : hyperk2 running 64-bit Ubuntu 22.04.5 LTS
+| Command      : upgrade_ip
+| Device       : xc7k325tffg900-2
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'system_axi_gpio_0_0'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of system_axi_gpio_0_0 (xilinx.com:ip:axi_gpio:2.0) from (Rev. 29) to (Rev. 33)
+
+
+
+
+
+
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
+| Date         : Tue Mar 18 11:13:17 2025
+| Host         : hyperk2 running 64-bit Ubuntu 22.04.5 LTS
+| Command      : upgrade_ip
+| Device       : xc7k325tffg900-2
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'system_axi_ethernet_0_refclk_0'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of system_axi_ethernet_0_refclk_0 (xilinx.com:ip:clk_wiz:6.0) from (Rev. 11) to (Rev. 14)
+
+
+
+
+
+
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
+| Date         : Tue Mar 18 11:13:17 2025
+| Host         : hyperk2 running 64-bit Ubuntu 22.04.5 LTS
+| Command      : upgrade_ip
+| Device       : xc7k325tffg900-2
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'system_axi_ethernet_0_0'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of system_axi_ethernet_0_0 (xilinx.com:ip:axi_ethernet:7.2) from (Rev. 8) to (Rev. 17)
+
+
+
+
+
+
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
+| Date         : Tue Mar 18 11:13:17 2025
+| Host         : hyperk2 running 64-bit Ubuntu 22.04.5 LTS
+| Command      : upgrade_ip
+| Device       : xc7k325tffg900-2
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'system_axi_dma_0_0'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of system_axi_dma_0_0 (xilinx.com:ip:axi_dma:7.1) from (Rev. 28) to (Rev. 32)
+
