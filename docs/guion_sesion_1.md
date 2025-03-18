@@ -158,6 +158,7 @@ petalinux-config
 
 !!! question "Question 9"
     What does each partition represent? Fill the table below.
+    How is the required size of each partition computed?
 
 | Partition    | Size     | Description |
 |--------------|----------|-------------|
