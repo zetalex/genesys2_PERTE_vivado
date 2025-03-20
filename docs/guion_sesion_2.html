@@ -1,5 +1,5 @@
 <!DOCTYPE html><html><head>
-      <title>guion_sesion_1</title>
+      <title>guion_sesion_2</title>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
@@ -24,291 +24,128 @@
     
       <div class="crossnote markdown-preview  ">
       
-<h1 id="session-1-microblaze-platform-for-petalinux">SESSION 1: MICROBLAZE PLATFORM FOR PETALINUX </h1>
-<p>In this first session we are learning on how to generate from zero (to hero) a Petalinux system using the AMD Software for FPGA development. The platform will be based on the classic Microblaze architecture with many peripherals attached to it, as we have sen in the theory sessions.</p>
+<h1 id="session-2-software-components-of-petalinux">SESSION 2: SOFTWARE COMPONENTS OF PETALINUX </h1>
+<p>In this session we are learning on how to take advantage of the system we have built with our own hands in the previous session.</p>
+<p>Linux is not just some piece of static fancy software that is running on a computer so that you can show off to your friends...</p>
+<p>In this session, we are going to learn how to edit every single piece of code, used from the buildup of the kernel, going thorugh the bootloader process to the final enduser software that will be running in our platform.</p>
+<p>Also, if time is on our side and the Fortune Goddess smiles us, we can also learn how to add the end software after having being tested, to a prebuilt Linux image so that the end user doesn't have to worry about downloading any extra packages.</p>
 <div class="admonition danger">
 <p class="admonition-title">Deliverables</p>
 <p>At the end of this session you will have to deliver three things:</p>
 <ul>
-<li>The Question paper with all the questions answered. They will be developed through the lab session</li>
-<li>The XSA file from Vivado</li>
-<li>The screenshot of the address editor</li>
+<li>The source code of the GPIO application</li>
+<li>The .elf file, ready to be executed in the Genesys 2</li>
 </ul>
 </div>
-<h2 id="part-1-building-the-microblaze-platform-in-vivado">PART 1: BUILDING THE MICROBLAZE PLATFORM IN VIVADO </h2>
-<p>For this section, only Vivado 2024.1 software is needed.</p>
+<h2 id="patching-the-bootloader">Patching the bootloader </h2>
+<p>Before entering into coding a new application for ourselves, we will enter into the world of patching, that is, picking some code and changing it to our liking to add new features or fixing nasty bug.</p>
+<p>In Petalinux Tools, or in Yocto, in general there is the devtool concept, where the tools will download a specific source code of a software and will leave it inside the project locally so that you can change whichever part of the code you want.<br>
+Then, after the changes have been made, when issuing the <code>petalinux-build</code>, instead of pulling the source code from the repository, the local copy with your changes will be used.</p>
+<p>This is a very convenient way to test small changes done to other people software without having to pull their repositories in a separate directory, all of this is already integrated inside Yocto.</p>
+<p>We are going to patch the bootloader of Microblaze, defined as the first piece of software that the Microblaze CPU runs when booting up the system. This bootloader is a very small piece of software that must fit into the BlockRAMs, so having as few code as possible and as optimized as possible for our use case is crucial:</p>
 <ol>
-<li>Download the archived project from PoliformaT and unzip it in a folder of your choice.</li>
+<li>Pull the source code using <code>petalinux-devtool</code><pre data-role="codeBlock" data-info="shell" class="language-shell shell"><code>petalinux-devtool modify fs-boot
+</code></pre></li>
+<li>The previous command will download the source code in <code>components/yocto/workspace/sources/fs-boot</code>. Go to that folder</li>
+<li>There, you will find the source code of the first stage boot loader. The main() function of this bootloader is in <code>components/yocto/workspace/sources/fs-boot/lib/sw_apps/mba_fs_boot</code> Open the file <em>fs-boot.c</em></li>
+<li>Make some modification like for example adding a printf at the beginning of the main().</li>
+<li>Now, we could build the petalinux image and test this change, no more steps are needed. However, we are going to complete the flow now.</li>
+<li>The pull that devtool does gives a repository as a result, meaning that when you make changes you can commit them. Each one of these commits will be transformed into a .patch file.<pre data-role="codeBlock" data-info="shell" class="language-shell shell"><code><span class="token function">git</span> <span class="token function">add</span> <span class="token parameter variable">-A</span>
+<span class="token function">git</span> commit <span class="token parameter variable">-m</span> <span class="token string">"My Patched changes"</span>
+</code></pre></li>
+<li>Once the commits are done, run the other relevant <code>petalinux-devtool</code>command variant:</li>
+</ol>
+<pre data-role="codeBlock" data-info="shell" class="language-shell shell"><code>petalinux-devtool finish fs-boot <span class="token operator">&lt;</span>absolute route to the project<span class="token operator">&gt;</span>/project-spec/meta-user
+</code></pre><ol start="8">
+<li>Now, inside <code>project-spec/meta-user/recipes-bsp/fs-boot</code>, there should be a .patch file for each commit file you made. Find in the following link an example of a <a href="https://github.com/Xilinx/embeddedsw/commit/08ebf27b381f3f21a9e961363d3a9505e3d49a21.patch">patch file</a></li>
+</ol>
+<h2 id="coding-applications-in-vitis">Coding applications in Vitis </h2>
+<p>AMD provides an Integrated Development Environment (IDE) for their FPGA solutions, where all the tools needed for building and debugging software are included. This software is called Vitis and, from 2023.2 onwards, Vitis Unified IDE. This latest version of Vitis is based on Visual Studio Code interface but specially made for the AMD products.</p>
+<p>In this section, you will code an application for the Microblaze CPU that you built in the previous session. The statement is as follows:</p>
+<div class="admonition abstract">
+<p class="admonition-title">Application coding</p>
+<p>Code an application that takes the value of the switches through the GPIOs and puts it directly into the LEDs above the switches in the Genesys 2 board</p>
+</div>
+<p>To code this application, please take a look into how GPIO works in Linux through sysfs.</p>
+<p>The steps to perform are as follows:</p>
+<ol>
+<li>Open Vitis 2024.1 Unified IDE</li>
+<li>Select a folder where to create your workspace<br>
+<img src="img/Vitis_1.png" alt="alt text"></li>
+<li>Create a platform project by clicking in <code>File -&gt; New Component -&gt; Platform</code><br>
+<img src="img/Vitis_2.png" alt="alt text"></li>
+<li>Write a name for your platform like <code>microblaze_platform</code></li>
+<li>Click Next and select the same XSA that you used for building the Petalinux project.</li>
+<li>Click Next and select <em>linux</em> in the operating system section. Click Next and finish.<br>
+<img src="img/Vitis_3.png" alt="alt text"> <br></li>
+<li>Build the platform project by clicking on the Build button<br>
+<img src="img/Vitis_4.png" alt="alt text"> <br></li>
+<li>Create an application project by using the Hello World Example of Linux. There is an icon in the side bar of Vitis that shows a list of possible examples to start your application. The one we are going to choose is <em>Linux Hello World</em>.<br>
+<img src="img/VitisExamples.png" alt="alt text"><br>
+<br></li>
+<li>Select the built platform in the Select Platform screen.</li>
 </ol>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>UNZIP THE FOLDER IN A PATH THAT IS NOT VERY LONG AS WINDOWS CAN COMPLAIN ABOUT THIS!</p>
+<p>If the platform you created is not shown, make sure that you clicked Build before creating the application component!</p>
 </div>
-<ol>
-<li>Open Vivado and click on Open Project.</li>
-<li>Go to the folder where the project was unzipped and open the <em>.xpr</em> file to open the Vivado project.</li>
-<li>Follow the instructions in the next sections to complete the Vivado project, making it ready for booting up Linux.</li>
-</ol>
-<h3 id="including-qspi-controller">Including QSPI Controller </h3>
-<p>The project is almost completed, only one IP block is left: The QSPI controller.</p>
-<div class="admonition question">
-<p class="admonition-title">"Question 1"</p>
-<p>Why is the QSPI controller needed?</p>
+<p><img src="img/Vitis_6.png" alt="alt text"> <br></p>
+<div class="admonition info">
+<p class="admonition-title">Suggestion</p>
+<p>Try to run first the Hello world application before coding the application, to ensure that everything works.</p>
 </div>
-<ol>
-<li>Click on <em>Open Block Design</em> in the IP Integrator section.<br>
-<img src="img/IPClick.png" alt="alt text"></li>
-<li>Right click in an empty part of the Diagram screen and click on <em>Add IP</em>.<br>
-<img src="img/AddIP.png" alt="alt text"></li>
-<li>Select AXI Quad SPI.</li>
-<li>Double click on the IP and configure the IP as shown in the photo.<br>
-<img src="img/QSPIConfig.png" alt="alt text"></li>
-</ol>
-<div class="admonition question">
-<p class="admonition-title">"Question 2"</p>
-<p>How is it known that the Mode must be Quad and the Slave Device Spansion?<br>
-Tip: Look at the Genesys 2 reference manual for the QSPI flash model.</p>
-</div>
-<ol start="5">
-<li>Connect the IP to the following ports. For that just hold click on the port and draw the cursor to the destination port where you want to connect the first port to:
-<ul>
-<li>AXI_LITE -&gt; M02_AXI of AXI Interconnect</li>
-<li>ext_spi_clk -&gt; ui_clk from MIG 7 Series</li>
-<li>s_axi_aclk -&gt; ui_clk from MIG 7 Series</li>
-<li>s_axi_aresetn -&gt; peripheral_aresetn from rst_mig_7series_0_100M</li>
-</ul>
-</li>
-</ol>
-<h3 id="analyze-microblaze-processor-and-memory-map">Analyze Microblaze processor and memory map </h3>
-<p>In this section we are going to edit the Microblaze processor:</p>
-<ol>
-<li>Double click on the Microblaze processor.</li>
-</ol>
-<div class="admonition question">
-<p class="admonition-title">"Question 3"</p>
-<p>What is needed for the Microblaze to run Linux?</p>
-</div>
-<ol start="2">
-<li>Go to the cache page and increase the cache to 64kB.</li>
-</ol>
-<div class="admonition question">
-<p class="admonition-title">"Question 4"</p>
-<p>Check the Base Address and High Address values in the Instruction and Data Cache.<br>
-Where are these values drawn from? What do they represent?</p>
-</div>
-<ol start="3">
-<li>Go to the Address Editor tab.</li>
-<li>Right click and in the contextual menu click on <em>Assign All</em>. This will assign physical memory spaces in the addressing space of the CPU.</li>
-</ol>
-<div class="admonition question">
-<p class="admonition-title">"Question 5"</p>
-<p>Change the Available internal memory of the CPU from 8kB to 64kB.<br>
-What effect will this cause in our design? What is it useful for?</p>
-</div>
-<ol start="5">
-<li>Make a screenshot expanding all the elements from the address editor and attach it in the PoliformaT task.</li>
-</ol>
-<h3 id="editing-constraints">Editing Constraints </h3>
-<p>Add the following constraints to the XDC file. The XDC file is in the Sources section, Constraints folder.<br>
-<img src="img/SourcesConstr.png" alt="alt text"></p>
-<pre data-role="codeBlock" data-info="tcl" class="language-tcl tcl"><code>set_property BITSTREAM.CONFIG.SPI_BUSWIDTH 4 <span class="token punctuation">[</span>current_design<span class="token punctuation">]</span>
-set_property BITSTREAM.GENERAL.COMPRESS TRUE <span class="token punctuation">[</span>current_design<span class="token punctuation">]</span>
-</code></pre><div class="admonition question">
-<p class="admonition-title">"Question 6"</p>
-<p>What do the previous commands do?</p>
-</div>
-<h3 id="select-bootup-method">Select bootup method </h3>
-<ol>
-<li>Run Synthesis of the design.</li>
-<li>Tools -&gt; Edit Device Properties -&gt; Configuration modes -&gt; Master SPIx4.<br>
-<img src="img/BootupMehtod.png" alt="alt text"></li>
-</ol>
-<h3 id="generate-bitstream">Generate bitstream </h3>
-<ol>
-<li>Click on Generate Bitstream to go through the whole build process.</li>
-<li>Open Implemented Design.</li>
-<li>Click on <em>Report Utilization</em> and check the utilization report to see which FPGA resources were used.</li>
-<li>Attach a screenshot of the Summary section of the Utilization Report.</li>
-</ol>
-<h3 id="generate-xsa-file">Generate XSA file </h3>
-<ol>
-<li>Go to File -&gt; Export -&gt; Export Hardware.</li>
-<li>Check <em>Include Bitstream</em>.</li>
-<li>Select where you want to save the XSA file.</li>
-<li>Click Next several times and Finish.</li>
-</ol>
-<div class="admonition question">
-<p class="admonition-title">"Question 7"</p>
-<p>What does this file include?<br>
-Tip: Open it using 7zip.</p>
-</div>
-<h2 id="part-2-generating-and-booting-petalinux-image">PART 2: GENERATING AND BOOTING PETALINUX IMAGE </h2>
-<p>In this section, we are going to build a custom Linux image using the Vivado XSA. The software that will be used are the Petalinux Tools 2024.1.</p>
-<ol>
-<li>Connect to the Linux VM...</li>
-<li>Run the script that configures the environment for Petalinux building commands.</li>
-<li>Create the Petalinux project. This project will be the center of all the changes made in the software for building the Linux platform and software that comes with it.</li>
-</ol>
-<pre data-role="codeBlock" data-info="shell" class="language-shell shell"><code>petalinux-create <span class="token parameter variable">-t</span> project <span class="token parameter variable">-n</span> linux_mb_2024 <span class="token parameter variable">--template</span> microblaze
-</code></pre><div class="admonition question">
-<p class="admonition-title">"Question 8"</p>
-<p>What options are there for the template argument?<br>
-Check UG1144 Petalinux Tools Reference Guide.</p>
-</div>
-<ol start="4">
-<li>We have to tell Petalinux which hardware we have so that the correct software and drivers components are built. As the in the FPGA we can include any hardware that our imagination (and our Verilog coding skills) allow us, Petalinux Tools need to know exactly what we included and what not.</li>
-</ol>
-<pre data-role="codeBlock" data-info="shell" class="language-shell shell"><code>petalinux-config --get-hw-description <span class="token operator">&lt;</span>folder where the xsa was copied<span class="token operator">&gt;</span> <span class="token parameter variable">--silentconfig</span>
-</code></pre><h3 id="configuring-the-linux-kernel">Configuring the linux kernel </h3>
-<ol start="5">
-<li>There is one hardware added: the Ethernet link that requires additional drivers because there is a PHY chip in the board that negotiates the link. This is a Realtek chip that has their own set of drivers.<br>
-Run the following command to enter into the kernel customization menu:</li>
-</ol>
-<pre data-role="codeBlock" data-info="shell" class="language-shell shell"><code>petalinux-config <span class="token parameter variable">-c</span> kernel
-</code></pre><p><img src="img/genesys2_ethernet.png" alt="alt text"></p>
-<ol start="6">
-<li>You will be presented with a Kconfig menu that allows to configure every single part of the Linux kernel, to tune it to the developer needs. Go to the corresponding section by using the arrow keys and the <em>Enter</em> key and check the Realtek PHY support using the <em>y</em> key:</li>
-</ol>
-<pre data-role="codeBlock" data-info="" class="language-text"><code>&gt; Device Drivers &gt; Network device support &gt; PHY Device support and infrastructure
-</code></pre><p><img src="img/kernelrealtek.png" alt="alt text"></p>
-<h3 id="boot-flow-configuring-offsets">Boot flow, configuring offsets </h3>
-<p>Let's analyze the boot flow. Petalinux will boot from the QSPI flash, using the bootflow that we saw in the slides. For that it will need several files and each one of them must be in a specific offset that we are configuring the Petalinux boot flow to find that file. To configure those offsets the following steps must be made:</p>
-<ol start="7">
-<li>Go to the main Petalinux configuration screen:</li>
-</ol>
-<pre data-role="codeBlock" data-info="shell" class="language-shell shell"><code>petalinux-config
-</code></pre><ol start="8">
-<li>Navigate through the menu to the qspi offset section:</li>
-</ol>
-<pre data-role="codeBlock" data-info="shell" class="language-shell shell"><code> → Subsystem Hardware Settings → Flash Settings
-</code></pre><ol start="9">
-<li>Configure the offset using the following options:<br>
-<img src="img/QSPIOffsets.png" alt="alt text"></li>
-</ol>
-<div class="admonition question">
-<p class="admonition-title">"Question 9"</p>
-<p>What does each partition represent? Fill the table below.<br>
-How is the required size of each partition computed?</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Partition</th>
-<th>Size</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>spi0-fpga</td>
-<td>0xB00000</td>
-<td></td>
-</tr>
-<tr>
-<td>spi0-boot</td>
-<td>0xA0000</td>
-<td></td>
-</tr>
-<tr>
-<td>spi0-bootenv</td>
-<td>0x20000</td>
-<td></td>
-</tr>
-<tr>
-<td>spi0-kernel</td>
-<td>0xC00000</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h3 id="editing-the-device-tree">Editing the device tree </h3>
-<p>Including a new driver means that we need to configure it. This is done through the device tree, as explained in the theory slides. For this lab session we are going to configure the Realtek PHY included in the Genesys 2:</p>
 <ol start="10">
-<li>In the project folder, go to <code>project-spec/meta-user/recipes-bsp/device-tree/files</code>.</li>
-<li>Open the <em>system-user.dtsi</em> file.</li>
-<li>Add the following lines of text to the file:</li>
+<li>Build the application</li>
+<li>Connect through Ethernet the board</li>
+<li>Assign 40.0.0.1 to the PC statically<br>
+<img src="img/Windows_IP_assign.png" alt="alt text"></li>
+<li>Assign to the Genesys 2 Linux the 40.0.0.2 ip address by using the following command:</li>
 </ol>
-<pre data-role="codeBlock" data-info="dts" class="language-dts dts"><code>&amp;axi_ethernet_0 {
-    phy-handle = &lt;&amp;phy0&gt;;
-    axi_ethernet_0_mdio: mdio {
-        #address-cells = &lt;1&gt;;
-        #size-cells = &lt;0&gt;;
-        phy0: ethernet-phy@0 {
-            device_type = "ethernet-phy";
-            compatible = "ethernet-phy-id001c.c915";
-            reg = &lt;1&gt;;
-        };
-    };
-};
-</code></pre><div class="admonition question">
-<p class="admonition-title">"Question 10"</p>
-<p>What does the compatible property and the reg property represent?</p>
-</div>
-<div class="admonition question">
-<p class="admonition-title">"Question 11"</p>
-<p>Where can you get the information of what to write in the compatible and the reg property?</p>
-</div>
-<h3 id="bootup-petalinux">Bootup Petalinux </h3>
-<p>The project is completely configured. Now let's build an image and flash it into the Genesys 2 board.</p>
-<ol start="14">
-<li>The command for building Petalinux images is <code>petalinux-build</code>. However, do not run it, as it takes very long to run. We are going to use a prebuilt image.</li>
-<li>For completeness, there is another command, called <code>petalinux-package</code>, that takes all the outputs from the previous one and puts it inside an MCS (Memory Configuration System) file. This file is used to initialize the QSPI flash inside the Genesys 2 board with all the required files for booting Linux.</li>
+<pre data-role="codeBlock" data-info="shell" class="language-shell shell"><code><span class="token function">sudo</span> <span class="token function">ifconfig</span> eth0 <span class="token number">40.0</span>.0.2
+</code></pre><p>You can check if the IP was correctly assigned by typing the <code>ifconfig</code> command.<br>
+It should be like the screenshoot below:<br>
+<img src="img/Vitis_8.png" alt="alt text"> <br><br>
+14.   Click on the cog wheel next to the Run button to open the Run settings:<br>
+<img src="img/Vitis_9_5.png" alt="alt text">  <br><br>
+15.   Click on the New button in the Target connection. This is done to create a new connection through the ethernet link to the board<br>
+<img src="img/Vitis_9_5_5.png" alt="alt text"> <br><br>
+16.   Input the IP address of the board, so 40.0.2. <br><br>
+17.   Click on Test Connection button BEFORE clicking OK. There should be a message like this one. If there is not, the run button will not work. <br><br>
+<img src="img/Vitis_9.png" alt="alt test"> <br></p>
+<ol start="18">
+<li>Click on the run button. The application should be running. If you run the Hellow World, there should a printed message in the debug console below.<br>
+<img src="img/Vitis_Running_Hello_world.png" alt="alt text"></li>
 </ol>
-<p><img src="img/MCSForm.png" alt="alt text"></p>
-<div class="admonition question">
-<p class="admonition-title">"Question 12"</p>
-<p>Open the MCS with a text editor. What do you find inside?</p>
+<h2 id="debugging-applications-in-vitis">Debugging applications in Vitis </h2>
+<p>Besides just running your application, you can also debug it step by step.<br>
+This is done in exactly the same way as when running normally your application, but instead of clicking on <em>Run</em>, click on <em>Debug</em> and the debugging interface should appear, breaking at the start of the main() function.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can put breakpoints by double clicking on the lines of the editor, just like in any another editor.</p>
 </div>
-<p>PONER AQUI TODAS LAS CAPTURAS</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In case your application is not entering debug mode, make sure to disable any optimization flag (-O0) and enabling the debug information flag (-g3).</p>
+</div>
+<p><img src="img/Vitis_Debug.png" alt="alt text"></p>
+<h2 id="extra-adding-your-software-to-a-production-image">EXTRA: adding your software to a production image </h2>
+<p>If you have reached this section before the session ended, congratulations! This last section is dedicated to including your source code that you made on Vitis in the previous section inside the Petalinux image, so that it is readily available to anyone that flashes your OS image (the .mcs file) without having to transfer the application afterwards through ethernet like we did.</p>
+<p>Petalinux Tools is Yocto based, meaning that it works through recipes. To add a new software component, we need to add a new recipe. The steps are as follows:</p>
 <ol>
-<li>
-<p>Open Vivado 2024.1 and go to Hardware Manager.</p>
-</li>
-<li>
-<p>Click on Open Target -&gt; Auto Connect.</p>
-</li>
-<li>
-<p>Right click on the FPGA device found (kcu7) and click on <em>Add Configuration Memory Device</em>.</p>
-</li>
-<li>
-<p>In the window, select the correct memory device: <em>s25fl256xxxxxx0</em>.</p>
-</li>
-<li>
-<p>Click OK and say Yes to the message prompting you to program the memory device.</p>
-</li>
-<li>
-<p>Check the MCS option in the next window and add the boot.mcs boot file that you have to download from PoliformaT.</p>
-</li>
-<li>
-<p>Click OK and wait for the device to be programmed.</p>
-</li>
-<li>
-<p>Once programmed, open Putty and select the serial terminal with the following options:</p>
-<ul>
-<li>Serial Line: COMx (check in device manager)</li>
-<li>Speed: 115200</li>
-<li>Bits: 8</li>
-<li>Stop bits: 1</li>
-<li>Parity: None</li>
-<li>Flow Control: OFF</li>
-</ul>
-<p><img src="img/SerialConfig.png" alt="alt text"></p>
-</li>
-<li>
-<p>Turn off and back on the board and wait for Petalinux to boot.</p>
-</li>
+<li>Create a new application recipe:</li>
 </ol>
-<h3 id="running-some-commands-in-petalinux">Running some commands in Petalinux </h3>
-<p>Once in the login prompt, enter the <code>petalinux</code> user and then write a new password when asked by the system.</p>
-<div class="admonition question">
-<p class="admonition-title">"Question 13"</p>
-<p>Run the following commands and copy and paste the output:</p>
-<ul>
-<li><code>cat /proc/cpuinfo</code></li>
-<li><code>cat /proc/meminfo</code><br>
-What kind of information does each one of these commands show?</li>
-</ul>
-</div>
+<pre data-role="codeBlock" data-info="shell" class="language-shell shell"><code>petalinux-create <span class="token parameter variable">-t</span> apps <span class="token parameter variable">--template</span> c <span class="token parameter variable">-n</span> my-gpio-app <span class="token parameter variable">--enable</span>
+</code></pre><ol start="2">
+<li>The new application source code should be created in <code>project-spec/meta-user/recipes-apps/my-gpio-app</code>. Inside this folder there should be a .bb file and a folder called files. Open the files folder.</li>
+<li>Copy all your source code files inside the <code>files</code> folder, erasing all the .c and .h files that were there, MAKING SURE THAT YOU LEAVE THE MAKEFILE.</li>
+<li>Open the aforementioned .bb file. This file contains a list of all the files that will be used to build your application in the form of an environment variable called SRC_URI.</li>
+<li>You need to point all the files you included in the SRC_URI files using the URI format that is usually used in web browsers, so <code>file://&lt;file-name&gt;</code>. These files are taking with respect to the route of the <code>files</code> folder so, if the files are already in the <code>files</code> folder, and not in any subdirectory, you just have to specify the file name.</li>
+<li>After that, we can make a quick test to see if our application is building correctly. This can be done by using the <code>petalinux-build</code> command with a -c parameter which indicates that we only want to build a specific component of our system. The name that you put in the -c, is the same as the one you used to create the application in step 1.</li>
+</ol>
+<pre data-role="codeBlock" data-info="shell" class="language-shell shell"><code>petalinux-build <span class="token parameter variable">-c</span> my-gpio-app
+</code></pre><ol start="7">
+<li>If the application built successfully, congratulations! you got your application included in the root file system of your Linux image. This means that, if you make a new .mcs file after running petalinux-build, you will get this application directly included in your rootfs.</li>
+</ol>
 
       </div>
       

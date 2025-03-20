@@ -235,5 +235,5 @@ Once in the login prompt, enter the `petalinux` user and then write a new passwo
 !!! question "Question 13"
     Run the following commands and copy and paste the output:  
     - `cat /proc/cpuinfo`  
-    - `cat /proc/iomem`  
+    - `cat /proc/meminfo`  
       What kind of information does each one of these commands show?
