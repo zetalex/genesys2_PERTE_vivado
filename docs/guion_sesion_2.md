@@ -7,6 +7,11 @@ In this session, we are going to learn how to edit every single piece of code, u
 
 Also, if time is on our side and the Fortune Goddess smiles us, we can also learn how to add the end software after having being tested, to a prebuilt Linux image so that the end user doesn't have to worry about downloading any extra packages.
 
+!!! danger Deliverables
+      At the end of this session you will have to deliver three things:
+      - The source code of the GPIO application
+      - The .elf file, ready to be executed in the Genesys 2
+
 ## Patching the bootloader
 Before entering into coding a new application for ourselves, we will enter into the world of patching, that is, picking some code and changing it to our liking to add new features or fixing nasty bug.
 
