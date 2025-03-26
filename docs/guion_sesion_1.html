@@ -145,8 +145,9 @@ Tip: Open it using 7zip.</p>
 <h2 id="part-2-generating-and-booting-petalinux-image">PART 2: GENERATING AND BOOTING PETALINUX IMAGE </h2>
 <p>In this section, we are going to build a custom Linux image using the Vivado XSA. The software that will be used are the Petalinux Tools 2024.1.</p>
 <ol>
-<li>Connect to the Linux VM...</li>
-<li>Run the script that configures the environment for Petalinux building commands.</li>
+<li>Connect to the Linux VM through <em>Windows Remote Desktop</em> application using the IP address and the username and password provided by the teacher.</li>
+<li>Open a terminal in Linux and run the script that configures the environment for Petalinux building commands.<pre data-role="codeBlock" data-info="shell" class="language-shell shell"><code><span class="token builtin class-name">source</span> /opt/petalinuxTools/2024/settings.sh
+</code></pre></li>
 <li>Create the Petalinux project. This project will be the center of all the changes made in the software for building the Linux platform and software that comes with it.</li>
 </ol>
 <pre data-role="codeBlock" data-info="shell" class="language-shell shell"><code>petalinux-create <span class="token parameter variable">-t</span> project <span class="token parameter variable">-n</span> linux_mb_2024 <span class="token parameter variable">--template</span> microblaze
@@ -171,17 +172,30 @@ Run the following command to enter into the kernel customization menu:</li>
 </ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>&gt; Device Drivers &gt; Network device support &gt; PHY Device support and infrastructure
 </code></pre><p><img src="img/kernelrealtek.png" alt="alt text"></p>
+<ol start="7">
+<li>
+<p>Go to the following directory:<br>
+<code>&lt;petalinux-project-folder&gt;/components/yocto/layers/poky/meta/recipes-core/libxcrypt</code></p>
+</li>
+<li>
+<p>Open <em>libxcrypt.inc</em> and change the SRCREV variable to <code>"55ea777e8d567e5e86ffac917c28815ac54cc341"</code></p>
+</li>
+</ol>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>This last step is made to fix a bug in one of the Yocto recipes used in Petalinux Tools 2024.1. What it does is to change the commit SHA where it downloads the source code from to compile the libxcrypt library. It basically updates the library from version 4.4.30 to the latest one, where this bug has already been fixed.</p>
+</div>
 <h3 id="boot-flow-configuring-offsets">Boot flow, configuring offsets </h3>
 <p>Let's analyze the boot flow. Petalinux will boot from the QSPI flash, using the bootflow that we saw in the slides. For that it will need several files and each one of them must be in a specific offset that we are configuring the Petalinux boot flow to find that file. To configure those offsets the following steps must be made:</p>
-<ol start="7">
+<ol start="9">
 <li>Go to the main Petalinux configuration screen:</li>
 </ol>
 <pre data-role="codeBlock" data-info="shell" class="language-shell shell"><code>petalinux-config
-</code></pre><ol start="8">
+</code></pre><ol start="10">
 <li>Navigate through the menu to the qspi offset section:</li>
 </ol>
 <pre data-role="codeBlock" data-info="shell" class="language-shell shell"><code> → Subsystem Hardware Settings → Flash Settings
-</code></pre><ol start="9">
+</code></pre><ol start="11">
 <li>Configure the offset using the following options:<br>
 <img src="img/QSPIOffsets.png" alt="alt text"></li>
 </ol>
@@ -223,7 +237,7 @@ How is the required size of each partition computed?</p>
 </table>
 <h3 id="editing-the-device-tree">Editing the device tree </h3>
 <p>Including a new driver means that we need to configure it. This is done through the device tree, as explained in the theory slides. For this lab session we are going to configure the Realtek PHY included in the Genesys 2:</p>
-<ol start="10">
+<ol start="12">
 <li>In the project folder, go to <code>project-spec/meta-user/recipes-bsp/device-tree/files</code>.</li>
 <li>Open the <em>system-user.dtsi</em> file.</li>
 <li>Add the following lines of text to the file:</li>
@@ -248,10 +262,18 @@ How is the required size of each partition computed?</p>
 <p class="admonition-title">"Question 11"</p>
 <p>Where can you get the information of what to write in the compatible and the reg property?</p>
 </div>
+<ol start="15">
+<li>Build just the device-tree to check for any Syntax Errors that might have been commited.<pre data-role="codeBlock" data-info="shell" class="language-shell shell"><code>petalinux-build <span class="token parameter variable">-c</span> device-tree
+</code></pre></li>
+</ol>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The command in the previous step builds just the device-tree component, through the -c parameter.</p>
+</div>
 <h3 id="bootup-petalinux">Bootup Petalinux </h3>
 <p>The project is completely configured. Now let's build an image and flash it into the Genesys 2 board.</p>
-<ol start="14">
-<li>The command for building Petalinux images is <code>petalinux-build</code>. However, do not run it, as it takes very long to run. We are going to use a prebuilt image.</li>
+<ol start="16">
+<li>The command for building Petalinux images is <code>petalinux-build</code>. It takes very long to run so we are going to use a prebuilt image.</li>
 <li>For completeness, there is another command, called <code>petalinux-package</code>, that takes all the outputs from the previous one and puts it inside an MCS (Memory Configuration System) file. This file is used to initialize the QSPI flash inside the Genesys 2 board with all the required files for booting Linux.</li>
 </ol>
 <p><img src="img/MCSForm.png" alt="alt text"></p>
@@ -260,32 +282,23 @@ How is the required size of each partition computed?</p>
 <p>Open the MCS with a text editor. What do you find inside?</p>
 </div>
 <p>PONER AQUI TODAS LAS CAPTURAS</p>
-<ol>
-<li>
-<p>Open Vivado 2024.1 and go to Hardware Manager.</p>
-</li>
-<li>
-<p>Click on Open Target -&gt; Auto Connect.</p>
-</li>
-<li>
-<p>Right click on the FPGA device found (kcu7) and click on <em>Add Configuration Memory Device</em>.</p>
-</li>
-<li>
-<p>In the window, select the correct memory device: <em>s25fl256xxxxxx0</em>.</p>
-</li>
-<li>
-<p>Click OK and say Yes to the message prompting you to program the memory device.</p>
-</li>
-<li>
-<p>Check the MCS option in the next window and add the boot.mcs boot file that you have to download from PoliformaT.</p>
-</li>
-<li>
-<p>Click OK and wait for the device to be programmed.</p>
-</li>
-<li>
-<p>Once programmed, open Putty and select the serial terminal with the following options:</p>
+<ol start="18">
+<li>Open Vivado 2024.1 and go to Hardware Manager.</li>
+<li>Click on Open Target -&gt; Auto Connect.<br>
+<img src="img/Vivado_1.png" alt="alt text"></li>
+<li>Right click on the FPGA device found (kcu7) and click on <em>Add Configuration Memory Device</em>.<br>
+<img src="img/Vivado_2.png" alt="alt text"></li>
+<li>In the window, select the correct memory device: <em>s25fl256xxxxxx0</em>.<br>
+<img src="img/Vivado_3.png" alt="alt text"></li>
+<li>Click OK and say Yes to the message prompting you to program the memory device.<br>
+<img src="img/Vivado_4.png" alt="alt text"></li>
+<li>Check the MCS option in the next window and add the boot.mcs boot file that you have to download from PoliformaT.<br>
+<img src="img/Vivado_5.png" alt="alt text"></li>
+<li>Click OK and wait for the device to be programmed.</li>
+<li>Once programmed, open Putty and select the serial terminal with the following options:</li>
+</ol>
 <ul>
-<li>Serial Line: COMx (check in device manager)</li>
+<li>Serial Line: COMx (check in Windows device manager)</li>
 <li>Speed: 115200</li>
 <li>Bits: 8</li>
 <li>Stop bits: 1</li>
@@ -293,10 +306,8 @@ How is the required size of each partition computed?</p>
 <li>Flow Control: OFF</li>
 </ul>
 <p><img src="img/SerialConfig.png" alt="alt text"></p>
-</li>
-<li>
-<p>Turn off and back on the board and wait for Petalinux to boot.</p>
-</li>
+<ol start="26">
+<li>Turn off and back on the board and wait for Petalinux to boot.</li>
 </ol>
 <h3 id="running-some-commands-in-petalinux">Running some commands in Petalinux </h3>
 <p>Once in the login prompt, enter the <code>petalinux</code> user and then write a new password when asked by the system.</p>
