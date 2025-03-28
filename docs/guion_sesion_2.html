@@ -60,62 +60,97 @@ Then, after the changes have been made, when issuing the <code>petalinux-build</
 <li>Now, inside <code>project-spec/meta-user/recipes-bsp/fs-boot</code>, there should be a .patch file for each commit file you made. Find in the following link an example of a <a href="https://github.com/Xilinx/embeddedsw/commit/08ebf27b381f3f21a9e961363d3a9505e3d49a21.patch">patch file</a></li>
 </ol>
 <h2 id="coding-applications-in-vitis">Coding applications in Vitis </h2>
-<p>AMD provides an Integrated Development Environment (IDE) for their FPGA solutions, where all the tools needed for building and debugging software are included. This software is called Vitis and, from 2023.2 onwards, Vitis Unified IDE. This latest version of Vitis is based on Visual Studio Code interface but specially made for the AMD products.</p>
+<p>AMD provides an Integrated Development Environment (IDE) for their FPGA solutions, where all the tools needed for building and debugging software are included. This software is called Vitis.</p>
 <p>In this section, you will code an application for the Microblaze CPU that you built in the previous session. The statement is as follows:</p>
 <div class="admonition abstract">
 <p class="admonition-title">Application coding</p>
 <p>Code an application that takes the value of the switches through the GPIOs and puts it directly into the LEDs above the switches in the Genesys 2 board</p>
 </div>
 <p>To code this application, please take a look into how GPIO works in Linux through sysfs.</p>
-<p>The steps to perform are as follows:</p>
 <ol>
-<li>Open Vitis 2024.1 Unified IDE</li>
-<li>Select a folder where to create your workspace<br>
-<img src="img/Vitis_1.png" alt="alt text"></li>
-<li>Create a platform project by clicking in <code>File -&gt; New Component -&gt; Platform</code><br>
-<img src="img/Vitis_2.png" alt="alt text"></li>
-<li>Write a name for your platform like <code>microblaze_platform</code></li>
-<li>Click Next and select the same XSA that you used for building the Petalinux project.</li>
-<li>Click Next and select <em>linux</em> in the operating system section. Click Next and finish.<br>
-<img src="img/Vitis_3.png" alt="alt text"> <br></li>
-<li>Build the platform project by clicking on the Build button<br>
-<img src="img/Vitis_4.png" alt="alt text"> <br></li>
-<li>Create an application project by using the Hello World Example of Linux. There is an icon in the side bar of Vitis that shows a list of possible examples to start your application. The one we are going to choose is <em>Linux Hello World</em>.<br>
-<img src="img/VitisExamples.png" alt="alt text"><br>
-<br></li>
-<li>Select the built platform in the Select Platform screen.</li>
+<li>We are going to need both the XSA from Vivado 2024.1 and a SDK that contains the Microblaze crosscompiler and the sysroot. Download both the XSA and SDK.zip from PoliformaT.</li>
 </ol>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>If the platform you created is not shown, make sure that you clicked Build before creating the application component!</p>
-</div>
-<p><img src="img/Vitis_6.png" alt="alt text"> <br></p>
 <div class="admonition info">
-<p class="admonition-title">Suggestion</p>
-<p>Try to run first the Hello world application before coding the application, to ensure that everything works.</p>
+<p class="admonition-title">About sysroot</p>
+<p>It is a directory which is considered to be the root directory for the purpose of locating headers and libraries. It is a directory that contains a full linux rootfs made for the target architecture of the CPU, so it contains all the libraries (.so) and headers (.h) files specially made for that architecture.</p>
 </div>
-<ol start="10">
-<li>Build the application</li>
-<li>Connect through Ethernet the board</li>
-<li>Assign 40.0.0.1 to the PC statically<br>
-<img src="img/Windows_IP_assign.png" alt="alt text"></li>
-<li>Assign to the Genesys 2 Linux the 40.0.0.2 ip address by using the following command:</li>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p>The sysroot is completely needed as we CANNOT use the libraries included in the host OS because they are made for a different architecture (x86).</p>
+</div>
+<ol start="2">
+<li>
+<p>Extract SDK.zip in a folder of your choice</p>
+</li>
+<li>
+<p>Open Vitis Classic 2024.1</p>
+</li>
+<li>
+<p>Choose the workspace you want to work in (recommended to leave the default one).<br>
+<img src="img/Vitis_Classic_1.png" alt="alt text"></p>
+</li>
+<li>
+<p>Create a platform project<br>
+<img src="img/Vitis_Classic_2.png" alt="alt text"></p>
+</li>
 </ol>
-<pre data-role="codeBlock" data-info="shell" class="language-shell shell"><code><span class="token function">sudo</span> <span class="token function">ifconfig</span> eth0 <span class="token number">40.0</span>.0.2
-</code></pre><p>You can check if the IP was correctly assigned by typing the <code>ifconfig</code> command.<br>
-It should be like the screenshoot below:<br>
-<img src="img/Vitis_8.png" alt="alt text"> <br><br>
-14.   Click on the cog wheel next to the Run button to open the Run settings:<br>
-<img src="img/Vitis_9_5.png" alt="alt text">  <br><br>
-15.   Click on the New button in the Target connection. This is done to create a new connection through the ethernet link to the board<br>
-<img src="img/Vitis_9_5_5.png" alt="alt text"> <br><br>
-16.   Input the IP address of the board, so 40.0.2. <br><br>
-17.   Click on Test Connection button BEFORE clicking OK. There should be a message like this one. If there is not, the run button will not work. <br><br>
-<img src="img/Vitis_9.png" alt="alt test"> <br></p>
-<ol start="18">
-<li>Click on the run button. The application should be running. If you run the Hellow World, there should a printed message in the debug console below.<br>
-<img src="img/Vitis_Running_Hello_world.png" alt="alt text"></li>
+<div class="admonition info">
+<p class="admonition-title">About a platform project</p>
+<p>The platform project is the project that contains all the hardware information of the board and the type of OS it is running (linux, freertos or standalone). This information is gathered from the XSA generated by Vivado. For Linux, more information is required, such as the sysroot.</p>
+</div>
+<ol start="6">
+<li>Select the XSA that you downloaded previously.<br>
+<img src="img/Vitis_Classic_3.png" alt="alt text"></li>
+<li>When the Software specification loads, select in the Operating system dropdown <em>linux</em>.<br>
+<img src="img/Vitis_Classic_4.png" alt="alt text"></li>
+<li>Click Finish to create the platform project</li>
+<li>Click on platform.spr and then go to the Linux on microblaze_0 section.</li>
+<li>Search for Sysroot and click the Browse button next to it.<br>
+<img src="img/Vitis_Classic_5.png" alt="alt text"></li>
+<li>Go to the folder where you unzipped the sdk.zip file and select <code>&lt;sdk-directory&gt;/sysroots/microblazeel-v11.0-bs-cmp-re-mh-div-xilinx-linux</code><br>
+<img src="img/Vitis_Classic_6.png" alt="alt text"></li>
+<li>Build the platform project by clicking on the <em>hammer</em> icon.<img src="img/Build%20icon.png" alt="alt text"></li>
+<li>Create the application project.<br>
+<img src="img/Vitis_Classic_7.png" alt="alt text"></li>
+<li>Select the platform project created before in the following screen:<br>
+<img src="img/Vitis_Classic_8.png" alt="alt text"></li>
+<li>Click Next and input a name for the system project.</li>
+<li>Click Next again until you reach the following screen. Select as template the <em>Linux Hello World</em><br>
+<img src="img/Vitis_Classic_9.png" alt="alt text"></li>
+<li>Click Finish to create the application project</li>
+<li>Build the application project using the <em>Debug</em> profile.<br>
+<img src="img/Vitis_Classic_10.png" alt="alt text"></li>
+<li>Once built go to the Run button, dropdown list and click on Run Configurations...<br>
+<img src="img/Vitis_Classic_10_5.png" alt="alt text"></li>
+<li>Create a new configuration of type TCF (Single Application Debug).<br>
+<img src="img/Vitis_Classic_11.png" alt="alt text"></li>
+<li>In the Main tab
+<ul>
+<li>Add a new Agent with the Ip address of the Genesys 2 board (40.0.0.2).</li>
+<li>Click on Test Connection and ensure that it succesfully establishes connection.<br>
+<img src="img/Vitis_Classic_12.png" alt="alt text"></li>
+</ul>
+</li>
 </ol>
+<div class="admonition info">
+<p class="admonition-title">About TCF agent</p>
+<p>The TCF agent is a software included in the Petalinux distribution by default which acts as a bridge between the PC and the board. This allows to transfer, run and debug applications through ethernet, removing the need of connecting a JTAG cable.<br>
+For more information about the TCF agent go to <a href="https://docs.amd.com/r/en-US/ug1144-petalinux-tools-reference-guide/Debugging-Applications-with-TCF-Agent">AMD Docs</a></p>
+</div>
+<ol start="22">
+<li>In the Application tab
+<ul>
+<li>Change the working directory to <code>/home/petalinux</code></li>
+<li>Change the remote directory to <code>/home/petalinux/&lt;name-of-the-.elf&gt;</code></li>
+</ul>
+</li>
+<li>Click Apply and then Run.</li>
+<li>The Output terminal of the application should automatically open below and display the <em>Hello World</em>.</li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">How does the application work?</p>
+<p>The message <em>Hello World</em> is printed by the application by the board to stdout using printf, then the TCF agent connects stdout of the application to the PC, so the message is displayed on the PC.</p>
+</div>
 <h2 id="debugging-applications-in-vitis">Debugging applications in Vitis </h2>
 <p>Besides just running your application, you can also debug it step by step.<br>
 This is done in exactly the same way as when running normally your application, but instead of clicking on <em>Run</em>, click on <em>Debug</em> and the debugging interface should appear, breaking at the start of the main() function.</p>
